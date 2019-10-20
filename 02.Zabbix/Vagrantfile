@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "sbeliakou/centos"
+
+config.vm.define :zabbix1 do |zabix1_config|
+      zabix1_config.vm.host_name = "zabbix.server"
+      zabix1_config.vm.network "private_network", ip:"192.168.56.169"
+      zabix1_config.vm.provider :virtualbox do |vb|
+      vb.memory = "1024"
+      end
+      zabix1_config.vm.provision "shell", path: "script1.sh"
+  end
+config.vm.define :zabbix2 do |zabix2_config|
+      zabix2_config.vm.host_name = "zabbix.agent"
+      zabix2_config.vm.network "private_network", ip:"192.168.56.170"
+      zabix2_config.vm.provider :virtualbox do |vb|
+      vb.memory = "1024"
+      end
+      zabix2_config.vm.provision "shell", path: "script2.sh"
+       zabix2_config.vm.provision "shell", path: "tomcat.sh"
+  end
+end
