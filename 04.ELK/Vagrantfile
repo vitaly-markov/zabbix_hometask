@@ -1,0 +1,23 @@
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "sbeliakou/centos"
+
+config.vm.define :elk1 do |elk1_config|
+      elk1_config.vm.host_name = "elk.server"
+      elk1_config.vm.network "private_network", ip:"192.168.56.169"
+      elk1_config.vm.provider :virtualbox do |vb|
+      vb.memory = "1024"
+      end
+      elk1_config.vm.provision "shell", path: "elasticsearch.sh"
+      elk1_config.vm.provision "shell", path: "kibana.sh"
+  end
+config.vm.define :elk2 do |elk2_config|
+      elk2_config.vm.host_name = "tomcat"
+      elk2_config.vm.network "private_network", ip:"192.168.56.170"
+      elk2_config.vm.provider :virtualbox do |vb|
+      vb.memory = "1024"
+      end
+      elk2_config.vm.provision "shell", path: "logstash.sh"
+      elk2_config.vm.provision "shell", path: "tomcat.sh"
+  end
+end
